@@ -15,7 +15,7 @@ namespace AuctionAppDemo3.Backend.Controllers
         {
             base.Initialize(controllerContext);
             MobileServiceContext context = new MobileServiceContext();
-            DomainManager = new EntityDomainManager<AuctionItem>(context, Request);
+            DomainManager = new AuctionItemDomainManager(context, Request);
         }
 
         // GET tables/AuctionItem

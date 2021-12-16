@@ -34,7 +34,7 @@ namespace AuctionAppDemo3.Backend.Models
 
         public System.Data.Entity.DbSet<AuctionAppDemo3.Backend.DataObjects.Auction> Auctions { get; set; }
 
-        public System.Data.Entity.DbSet<AuctionAppDemo3.Backend.DataObjects.AuctionItem> AuctionItems { get; set; }
+        public System.Data.Entity.DbSet<AuctionAppDemo3.Backend.Models.AuctionItemDTO> AuctionItems { get; set; }
 
         public System.Data.Entity.DbSet<AuctionAppDemo3.Backend.DataObjects.Bid> Bids { get; set; }
     }

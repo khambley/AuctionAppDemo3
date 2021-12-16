@@ -12,7 +12,6 @@ namespace AuctionAppDemo3.Backend.DataObjects
         public string Description { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public List<AuctionItem> AuctionItems { get; set; }
 
 
     }

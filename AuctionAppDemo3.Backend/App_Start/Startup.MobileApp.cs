@@ -41,6 +41,8 @@ namespace AuctionAppDemo3.Backend
 
             app.UseWebApi(config);
             ConfigureSwagger(config);
+            ConfigureAutoMapper(config);
+            
         }
     }
 

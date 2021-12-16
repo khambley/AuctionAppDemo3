@@ -5,12 +5,12 @@
     using System.Data.Entity.Infrastructure.Annotations;
     using System.Data.Entity.Migrations;
     
-    public partial class AuctionItemAndBid : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.AuctionItems",
+                "dbo.AuctionItemDTOes",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128,
@@ -24,7 +24,7 @@
                         Name = c.String(),
                         Description = c.String(),
                         StartingBid = c.Double(nullable: false),
-                        AuctionId = c.String(maxLength: 128),
+                        Auction_Id = c.String(maxLength: 128),
                         Version = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion",
                             annotations: new Dictionary<string, AnnotationValues>
                             {
@@ -59,8 +59,60 @@
                             }),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Auctions", t => t.AuctionId)
-                .Index(t => t.AuctionId)
+                .ForeignKey("dbo.Auctions", t => t.Auction_Id)
+                .Index(t => t.Auction_Id)
+                .Index(t => t.CreatedAt, clustered: true);
+            
+            CreateTable(
+                "dbo.Auctions",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128,
+                            annotations: new Dictionary<string, AnnotationValues>
+                            {
+                                { 
+                                    "ServiceTableColumn",
+                                    new AnnotationValues(oldValue: null, newValue: "Id")
+                                },
+                            }),
+                        Name = c.String(),
+                        Description = c.String(),
+                        StartTime = c.DateTime(nullable: false),
+                        EndTime = c.DateTime(nullable: false),
+                        Version = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion",
+                            annotations: new Dictionary<string, AnnotationValues>
+                            {
+                                { 
+                                    "ServiceTableColumn",
+                                    new AnnotationValues(oldValue: null, newValue: "Version")
+                                },
+                            }),
+                        CreatedAt = c.DateTimeOffset(nullable: false, precision: 7,
+                            annotations: new Dictionary<string, AnnotationValues>
+                            {
+                                { 
+                                    "ServiceTableColumn",
+                                    new AnnotationValues(oldValue: null, newValue: "CreatedAt")
+                                },
+                            }),
+                        UpdatedAt = c.DateTimeOffset(precision: 7,
+                            annotations: new Dictionary<string, AnnotationValues>
+                            {
+                                { 
+                                    "ServiceTableColumn",
+                                    new AnnotationValues(oldValue: null, newValue: "UpdatedAt")
+                                },
+                            }),
+                        Deleted = c.Boolean(nullable: false,
+                            annotations: new Dictionary<string, AnnotationValues>
+                            {
+                                { 
+                                    "ServiceTableColumn",
+                                    new AnnotationValues(oldValue: null, newValue: "Deleted")
+                                },
+                            }),
+                    })
+                .PrimaryKey(t => t.Id)
                 .Index(t => t.CreatedAt, clustered: true);
             
             CreateTable(
@@ -77,7 +129,7 @@
                             }),
                         BidAmount = c.Double(nullable: false),
                         Bidder = c.String(),
-                        AuctionItemId = c.String(maxLength: 128),
+                        AuctionItem_Id = c.String(maxLength: 128),
                         Version = c.Binary(nullable: false, fixedLength: true, timestamp: true, storeType: "rowversion",
                             annotations: new Dictionary<string, AnnotationValues>
                             {
@@ -112,20 +164,21 @@
                             }),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AuctionItems", t => t.AuctionItemId)
-                .Index(t => t.AuctionItemId)
+                .ForeignKey("dbo.AuctionItemDTOes", t => t.AuctionItem_Id)
+                .Index(t => t.AuctionItem_Id)
                 .Index(t => t.CreatedAt, clustered: true);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Bids", "AuctionItemId", "dbo.AuctionItems");
-            DropForeignKey("dbo.AuctionItems", "AuctionId", "dbo.Auctions");
+            DropForeignKey("dbo.Bids", "AuctionItem_Id", "dbo.AuctionItemDTOes");
+            DropForeignKey("dbo.AuctionItemDTOes", "Auction_Id", "dbo.Auctions");
             DropIndex("dbo.Bids", new[] { "CreatedAt" });
-            DropIndex("dbo.Bids", new[] { "AuctionItemId" });
-            DropIndex("dbo.AuctionItems", new[] { "CreatedAt" });
-            DropIndex("dbo.AuctionItems", new[] { "AuctionId" });
+            DropIndex("dbo.Bids", new[] { "AuctionItem_Id" });
+            DropIndex("dbo.Auctions", new[] { "CreatedAt" });
+            DropIndex("dbo.AuctionItemDTOes", new[] { "CreatedAt" });
+            DropIndex("dbo.AuctionItemDTOes", new[] { "Auction_Id" });
             DropTable("dbo.Bids",
                 removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
                 {
@@ -165,7 +218,46 @@
                         }
                     },
                 });
-            DropTable("dbo.AuctionItems",
+            DropTable("dbo.Auctions",
+                removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
+                {
+                    {
+                        "CreatedAt",
+                        new Dictionary<string, object>
+                        {
+                            { "ServiceTableColumn", "CreatedAt" },
+                        }
+                    },
+                    {
+                        "Deleted",
+                        new Dictionary<string, object>
+                        {
+                            { "ServiceTableColumn", "Deleted" },
+                        }
+                    },
+                    {
+                        "Id",
+                        new Dictionary<string, object>
+                        {
+                            { "ServiceTableColumn", "Id" },
+                        }
+                    },
+                    {
+                        "UpdatedAt",
+                        new Dictionary<string, object>
+                        {
+                            { "ServiceTableColumn", "UpdatedAt" },
+                        }
+                    },
+                    {
+                        "Version",
+                        new Dictionary<string, object>
+                        {
+                            { "ServiceTableColumn", "Version" },
+                        }
+                    },
+                });
+            DropTable("dbo.AuctionItemDTOes",
                 removedColumnAnnotations: new Dictionary<string, IDictionary<string, object>>
                 {
                     {

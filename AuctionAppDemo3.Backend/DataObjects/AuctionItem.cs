@@ -12,13 +12,10 @@ namespace AuctionAppDemo3.Backend.DataObjects
         public string Name { get; set; }
         public string Description { get; set; }
         public double StartingBid { get; set; }
-        [NotMapped]
+        //calculated field
         public double CurrentBid { get; set; }
-
         public string AuctionId { get; set; }
-        public virtual Auction Auction { get; set; }
-
-        public List<Bid> Bids { get; set; }
+        
 
     }
 }
