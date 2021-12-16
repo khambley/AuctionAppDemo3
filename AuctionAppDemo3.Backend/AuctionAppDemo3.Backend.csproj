@@ -169,9 +169,26 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
     <Compile Include="App_Start\Startup.Swagger.cs" />
-    <Compile Include="Controllers\TodoItemController.cs" />
+    <Compile Include="Controllers\AuctionController.cs" />
+    <Compile Include="Controllers\AuctionItemController.cs" />
+    <Compile Include="Controllers\BidController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="DataObjects\TodoItem.cs" />
+    <Compile Include="DataObjects\Auction.cs" />
+    <Compile Include="DataObjects\AuctionItem.cs" />
+    <Compile Include="DataObjects\Bid.cs" />
+    <Compile Include="Migrations\202112111419399_InitialCreate.cs" />
+    <Compile Include="Migrations\202112111419399_InitialCreate.designer.cs">
+      <DependentUpon>202112111419399_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112161702448_Auction.cs" />
+    <Compile Include="Migrations\202112161702448_Auction.designer.cs">
+      <DependentUpon>202112161702448_Auction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112161722303_AuctionItemAndBid.cs" />
+    <Compile Include="Migrations\202112161722303_AuctionItemAndBid.designer.cs">
+      <DependentUpon>202112161722303_AuctionItemAndBid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MobileServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -191,6 +208,17 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\AuctionAppDemo3 - Web Deploy.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202112111419399_InitialCreate.resx">
+      <DependentUpon>202112111419399_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112161702448_Auction.resx">
+      <DependentUpon>202112161702448_Auction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112161722303_AuctionItemAndBid.resx">
+      <DependentUpon>202112161722303_AuctionItemAndBid.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

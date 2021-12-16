@@ -3,7 +3,6 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Tables;
-using AuctionAppDemo3.Backend.DataObjects;
 
 namespace AuctionAppDemo3.Backend.Models
 {
@@ -26,13 +25,17 @@ namespace AuctionAppDemo3.Backend.Models
         {
         }
 
-        public DbSet<TodoItem> TodoItems { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Add(
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
+
+        public System.Data.Entity.DbSet<AuctionAppDemo3.Backend.DataObjects.Auction> Auctions { get; set; }
+
+        public System.Data.Entity.DbSet<AuctionAppDemo3.Backend.DataObjects.AuctionItem> AuctionItems { get; set; }
+
+        public System.Data.Entity.DbSet<AuctionAppDemo3.Backend.DataObjects.Bid> Bids { get; set; }
     }
 }

@@ -20,9 +20,9 @@ namespace AuctionAppDemo3
 
             //MobileServiceClient client = new MobileServiceClient("http://localhost:2847");
             MobileServiceClient client = new MobileServiceClient("https://auctionappdemo3.azurewebsites.net/");
-            var items = await client.GetTable<TodoItem>().ReadAsync();
-            var item = items.First();
-            message.Text = item.Text;
+            //var items = await client.GetTable<TodoItem>().ReadAsync();
+            //var item = items.First();
+            //message.Text = item.Text;
         }
     }
 }
