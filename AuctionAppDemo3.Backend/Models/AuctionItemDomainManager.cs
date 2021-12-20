@@ -16,11 +16,44 @@ namespace AuctionAppDemo3.Backend.Models
 
         public override IQueryable<AuctionItem> Query()
         {
-            return base.Query();
+            MobileServiceContext ctx = this.Context as MobileServiceContext;
+
+            var items = from ai in ctx.AuctionItems
+                        select new AuctionItem
+                        {
+                            Id = ai.Id,
+                            Description = ai.Description,
+                            StartingBid = ai.StartingBid,
+                            Name = ai.Name,
+                            AuctionId = ai.AuctionId,
+                            Deleted = ai.Deleted,
+                            CreatedAt = ai.CreatedAt,
+                            UpdatedAt = ai.UpdatedAt,
+                            Version = ai.Version,
+                            CurrentBid = ai.Bids.Count == 0 ? 0 : ai.Bids.Max(b => b.BidAmount)
+                        };
+            return items;
         }
         public override System.Web.Http.SingleResult<AuctionItem> Lookup(string id)
         {
-            return base.LookupEntity((ai) => ai.Id == id);
+            MobileServiceContext ctx = this.Context as MobileServiceContext;
+
+            var item = from ai in ctx.AuctionItems
+                       where ai.Id == id
+                       select new AuctionItem
+                       {
+                           Id = ai.Id,
+                           Description = ai.Description,
+                           StartingBid = ai.StartingBid,
+                           Name = ai.Name,
+                           AuctionId = ai.AuctionId,
+                           Deleted = ai.Deleted,
+                           CreatedAt = ai.CreatedAt,
+                           UpdatedAt = ai.UpdatedAt,
+                           Version = ai.Version,
+                           CurrentBid = ai.Bids.Count == 0 ? 0 : ai.Bids.Max(b => b.BidAmount)
+                       };
+            return new System.Web.Http.SingleResult<AuctionItem>(item);
         }
 
         public override Task<bool> DeleteAsync(string id)
