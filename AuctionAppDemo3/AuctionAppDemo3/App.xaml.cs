@@ -7,11 +7,21 @@ namespace AuctionAppDemo3
 {
     public partial class App : Application
     {
+        private static AuctionService _service;
+        static App()
+        {
+            _service = new AuctionService("https://auctionappdemo3.azurewebsites.net/");
+        }
         public App()
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new Auctions());
+        }
+
+        public static AuctionService GetAuctionService()
+        {
+            return _service;
         }
 
         protected override void OnStart()
